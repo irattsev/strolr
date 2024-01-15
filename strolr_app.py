@@ -333,77 +333,86 @@ def load_chain_with_sources():
 
 
 if user_input:
+
+    if 'session_id' not in st.session_state or st.session_state.session_id == 'strolr_session_' + user_input:
+
+        if 'session_id' not in st.session_state:
+            st.session_state.session_id = 'strolr_session_' + user_input
+            st.write(st.session_state.session_id)
     
-    chain = load_chain_with_sources()
+        chain = load_chain_with_sources()
 
-    if 'messages' not in st.session_state:
-        # Start with first message from assistant
-        st.session_state['messages'] = [{"role": "assistant", 
-                                      "content": '🌟 **Welcome to Strolr - Your Pregnancy Info Companion!** 🌟 \n'
-                                      '\n'
-                                      f'Hi {user_input}! 👋 I\'m Strolr, your go-to chatbot for all things pregnancy-related! While I\'m here to help answer your questions, it\'s important to note that I\'m not a substitute for professional medical advice. Always consult with your healthcare provider for personalized guidance.\n'
-                                      '\n'
-                                      'My mission is to provide quick and reliable information by tapping into a database filled with trustworthy pregnancy sources. I\'m your virtual pregnancy encyclopedia, designed to make finding information a breeze.\n'
-                                      '\n'
-                                      'Feel free to ask me about topics like nutrition, prenatal care, common symptoms, and much more. If you have a pressing question, I\'m here to help point you in the right direction based on reliable sources.\n'
-                                      '\n'
-                                      'Remember, I\'m here to assist and inform, but your healthcare provider should be your primary source for personalized advice. Let\'s embark on this journey together, and feel free to ask me anything about pregnancy! 🤰💬'}]
-
-        
-    # Display chat messages from history on app rerun
-    # Custom avatar for the assistant, default avatar for user
-    for message in st.session_state.messages:
-        if message["role"] == 'assistant':
-            with st.chat_message(message["role"], avatar=small_logo):
-                st.markdown(message["content"])
-        else:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-
-    # Chat logic
-    if query := st.chat_input("Your question about pregnancy"):
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": query})
-        messages_for_download.append(query)
-        # Display user message in chat message container
-        with st.chat_message("user"):
-            st.markdown(query)
+        if 'messages' not in st.session_state:
+            # Start with first message from assistant
+            st.session_state['messages'] = [{"role": "assistant", 
+                                          "content": '🌟 **Welcome to Strolr - Your Pregnancy Info Companion!** 🌟 \n'
+                                          '\n'
+                                          f'Hi {user_input}! 👋 I\'m Strolr, your go-to chatbot for all things pregnancy-related! While I\'m here to help answer your questions, it\'s important to note that I\'m not a substitute for professional medical advice. Always consult with your healthcare provider for personalized guidance.\n'
+                                          '\n'
+                                          'My mission is to provide quick and reliable information by tapping into a database filled with trustworthy pregnancy sources. I\'m your virtual pregnancy encyclopedia, designed to make finding information a breeze.\n'
+                                          '\n'
+                                          'Feel free to ask me about topics like nutrition, prenatal care, common symptoms, and much more. If you have a pressing question, I\'m here to help point you in the right direction based on reliable sources.\n'
+                                          '\n'
+                                          'Remember, I\'m here to assist and inform, but your healthcare provider should be your primary source for personalized advice. Let\'s embark on this journey together, and feel free to ask me anything about pregnancy! 🤰💬'}]
 
         
-        with st.chat_message("assistant", avatar=small_logo):
-            message_placeholder = st.empty()
-            # Send user's question to our chain
-            context = "\n".join([message["content"] for message in st.session_state.messages])
-            #result = chain({"query": query})#, "context": context})
-            result = chain({"question":query})
-            #response = result['answer']
-            response = format_response(result)
-            full_response = ""
-            
-            # Simulate stream of response with milliseconds delay
-            for chunk in response.split():
-                full_response += chunk + " "
-                time.sleep(0.05)
-                # Add a blinking cursor to simulate typing
-                message_placeholder.markdown(full_response + "▌")
-            message_placeholder.markdown(full_response)
-
-        # Add assistant message to chat history
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        
-        chat_hist = chat_hist_download
-        for i in range(1,len(st.session_state['messages'])):
-            if i%2 == 0:
-                role_hist = 'Strolr'
+        # Display chat messages from history on app rerun
+        # Custom avatar for the assistant, default avatar for user
+        for message in st.session_state.messages:
+            if message["role"] == 'assistant':
+                with st.chat_message(message["role"], avatar=small_logo):
+                    st.markdown(message["content"])
             else:
-                role_hist = username_hist
-            chat_hist = chat_hist + '\n' + role_hist + ': ' + st.session_state['messages'][i]['content'] + '\n'
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
+    
+        # Chat logic
+        if query := st.chat_input("Your question about pregnancy"):
+            # Add user message to chat history
+            st.session_state.messages.append({"role": "user", "content": query})
+            messages_for_download.append(query)
+            # Display user message in chat message container
+            with st.chat_message("user"):
+                st.markdown(query)
+
+        
+            with st.chat_message("assistant", avatar=small_logo):
+                message_placeholder = st.empty()
+                message_placeholder.markdown('...')
+                # Send user's question to our chain
+                context = "\n".join([message["content"] for message in st.session_state.messages])
+                #result = chain({"query": query})#, "context": context})
+                result = chain({"question":query})
+                #response = result['answer']
+                response = format_response(result)
+                full_response = ""
             
-        #chat_hist = st.session_state['messages'][1]['content']
-        button_download = st.download_button(label="Download chat history",
-                                        data=chat_hist,#chat_hist_download,
-                                        file_name="Strolr chat history on " + str(today) + ".txt",
-                                        help="Click to download chat history")
+                # Simulate stream of response with milliseconds delay
+                for chunk in response.split():
+                    full_response += chunk + " "
+                    time.sleep(0.05)
+                    # Add a blinking cursor to simulate typing
+                    message_placeholder.markdown(full_response + "▌")
+                message_placeholder.markdown(full_response)
+    
+            # Add assistant message to chat history
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        
+            chat_hist = chat_hist_download
+            for i in range(1,len(st.session_state['messages'])):
+                if i%2 == 0:
+                    role_hist = 'Strolr'
+                else:
+                    role_hist = username_hist
+                chat_hist = chat_hist + '\n' + role_hist + ': ' + st.session_state['messages'][i]['content'] + '\n'
+                
+            #chat_hist = st.session_state['messages'][1]['content']
+            button_download = st.download_button(label="Download chat history",
+                                            data=chat_hist,#chat_hist_download,
+                                            file_name="Strolr chat history on " + str(today) + ".txt",
+                                            help="Click to download chat history")
+    else:
+        st.write('Hi ' + user_input + '! I am sorry, someone else is using the app. Please try again in 5 minutes...')
 
 
 # In[ ]:
