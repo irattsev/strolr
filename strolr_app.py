@@ -250,7 +250,8 @@ def load_chain_with_sources():
     
 
     # Create memory 'chat_history' 
-    memory = ConversationBufferMemory(memory_key="chat_history", output_key='answer', return_messages = True)
+    #memory = ConversationBufferMemory(memory_key="chat_history", output_key='answer', return_messages = True)
+    memory = ConversationBufferWindowMemory(k=3, memory_key="chat_history", output_key='answer', return_messages = True)
 
     # Create system prompt
     template = """
