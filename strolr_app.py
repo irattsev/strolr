@@ -338,7 +338,6 @@ if user_input:
 
         if 'session_id' not in st.session_state:
             st.session_state.session_id = 'strolr_session_' + user_input
-            st.write(st.session_state.session_id)
     
         chain = load_chain_with_sources()
 
@@ -394,6 +393,7 @@ if user_input:
                     # Add a blinking cursor to simulate typing
                     message_placeholder.markdown(full_response + "▌")
                 message_placeholder.markdown(full_response)
+                st.write(st.session_state)
     
             # Add assistant message to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
