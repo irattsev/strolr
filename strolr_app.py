@@ -83,10 +83,10 @@ CONNECTION_STRING = PGVector.connection_string_from_db_params(
 import psycopg2
 
 conn = psycopg2.connect(
-    host="localhost",
-    database="vectordb",
-    user="user",
-    password="temp")
+    host="vectordb.cfowaqqqovp0.us-east-2.rds.amazonaws.com",
+    database="postgres",
+    user="postgres",
+    password="temporary")
 
 
 # In[ ]:
