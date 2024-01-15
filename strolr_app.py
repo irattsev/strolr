@@ -58,9 +58,8 @@ right_column.write('Please enter your name to start the chat.')
 today = date.today()
 
 user_input = right_column.text_input("Name")
-openai_api_key = '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' ### INSERT OPEN API KEY HERE
-
-os.environ["OPENAI_API_KEY"] = openai_api_key
+openai_api_key = os.environ["OPENAI_API_KEY"]
+#os.environ["OPENAI_API_KEY"] = openai_api_key
 
 COLLECTION_NAME = "strolr_test"
 CONNECTION_STRING = PGVector.connection_string_from_db_params(
