@@ -65,11 +65,11 @@ os.environ["OPENAI_API_KEY"] = openai_api_key
 COLLECTION_NAME = "strolr_test"
 CONNECTION_STRING = PGVector.connection_string_from_db_params(
      driver=os.environ.get("PGVECTOR_DRIVER", "psycopg2"),
-     host=os.environ.get("PGVECTOR_HOST", "localhost"),
+     host=os.environ.get("PGVECTOR_HOST", "vectordb.cfowaqqqovp0.us-east-2.rds.amazonaws.com"),
      port=int(os.environ.get("PGVECTOR_PORT", "5432")),
-     database=os.environ.get("PGVECTOR_DATABASE", "vectordb"),
-     user=os.environ.get("PGVECTOR_USER", "user"),
-     password=os.environ.get("PGVECTOR_PASSWORD", "temp"),
+     database=os.environ.get("PGVECTOR_DATABASE", "postgres"),
+     user=os.environ.get("PGVECTOR_USER", "postgres"),
+     password=os.environ.get("PGVECTOR_PASSWORD", "temporary"),
 )
 
 #def generate_response(input_text):
