@@ -34,8 +34,8 @@ right_column = st
 # Display the name of the app
 
 left_co, cent_co,last_co = st.columns(3)
-logo = "LOGO_FINAL.png"
-small_logo = "strolr_bot.svg"
+logo = "strolr/LOGO_FINAL.png"
+small_logo = "strolr/strolr_bot.svg"
 with cent_co:
     st.image('logo.png')
 
