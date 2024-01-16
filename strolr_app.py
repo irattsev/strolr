@@ -41,9 +41,25 @@ small_logo = "strolr_bot.svg"
 with cent_co:
     st.image(logo)
 
-right_column.write(r"$\textsf{\Large An LLM-Enabled Chatbot To Support Pregnant Women’s Information Seeking From Trustworthy Sources}$")
+right_column.write(r"$\textsf{\large An LLM-Enabled Chatbot To Support Pregnant Women’s Information Seeking From Trustworthy Sources}$")
 
-# Sidebar - Resources
+# Sidebar
+with st.sidebar.expander("How to use"):
+    st.write("""
+        **How to use Strolr**\n\n
+        
+        Type your question in the chat and press *Enter* to start the conversation.\n
+        Strolr is only designed to answer the questions related to pregnancy and childcare.\n
+        To view the source of information provided by Strolr, click the link in the response.\n 
+        To browse all sources, click the *Resources* button below.\n
+        
+        Your chat history will be lost after you close the session. 
+        Click *Download chat history* button, if you wish to save the conversaion.\n
+        
+        Strolr is **NOT** designed to give you medical advice.\n
+        **If you are experiencing an emergency, call 9-1-1 immediately.**
+    """)
+    
 left_column.link_button("Resources", "https://mh-n.github.io/strolr/", help = "Click to browse resources")
 #openai_api_key = left_column.text_input("API key")
 #info = left_column.button("How to use")
@@ -353,7 +369,9 @@ if user_input:
                                           '\n'
                                           'Feel free to ask me about topics like nutrition, prenatal care, common symptoms, and much more. If you have a pressing question, I\'m here to help point you in the right direction based on reliable sources.\n'
                                           '\n'
-                                          'Remember, I\'m here to assist and inform, but your healthcare provider should be your primary source for personalized advice. Let\'s embark on this journey together, and feel free to ask me anything about pregnancy! 🤰💬'}]
+                                          'Remember, I\'m here to assist and inform, but your healthcare provider should be your primary source for personalized advice. Let\'s embark on this journey together, and feel free to ask me anything about pregnancy! 🤰💬\n'
+                                          '\n'
+                                          '*NOTE:* your chat history will **not** be saved when you close the session. If you wish to save your conversation, click **Download chat history** button in the chat.'}]
 
         
         # Display chat messages from history on app rerun
